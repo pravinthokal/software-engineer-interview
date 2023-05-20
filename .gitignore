@@ -2,3 +2,10 @@
 bin
 obj
 *DotSettings.user
+*.sqlite
+*.vsidx
+*.lock
+*.wsuo
+*.v2
+*.json
+*.suo

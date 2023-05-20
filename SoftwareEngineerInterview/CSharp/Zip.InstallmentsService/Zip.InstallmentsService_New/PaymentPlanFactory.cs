@@ -18,25 +18,25 @@ namespace Zip.InstallmentsService
             int installmentPeriod = 14;
             Installment installment = null;
 
-            DateTime OrderDate = DateTime.UtcNow();
+            DateTime OrderDate = DateTime.UtcNow;            
 
-            decimal emi = purchaseAmount / totalNoOfInstallment;
+            int emi = (int) purchaseAmount / totalNoOfInstallment;
 
             PaymentPlan paymentPlan = new PaymentPlan();
-            paymentPlan.Id = Guid.New();
+            paymentPlan.Id = Guid.NewGuid();
             paymentPlan.PurchaseAmount = purchaseAmount;
             paymentPlan.Installments = new Installment[totalNoOfInstallment];
 
             for (int installmentCounter =0; installmentCounter < totalNoOfInstallment; installmentCounter++)
             {
                 installment = new Installment();
-                installment.Id = Guid.New();
+                installment.Id = Guid.NewGuid();
                 installment.Amount = emi;
-                installment.DueDate = OrderDate.Day(installmentPeriod * (installmentCounter + 1 ));
-                paymentPlan.Installments[installmentCounter] = installment;
+                installment.DueDate = OrderDate.AddDays(installmentPeriod * (installmentCounter + 1 ));
+                paymentPlan.Installments[installmentCounter] = installment;                
             }
-                
 
+            paymentPlan.Installments[totalNoOfInstallment - 1].Amount = Math.Round(purchaseAmount - emi * (totalNoOfInstallment - 1),2) ;
             return paymentPlan;
         }
     }
